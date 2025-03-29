@@ -97,8 +97,18 @@ def grafico3():
     conn.close()
     df_regioes = pd.DataFrame(dados)
     fig = px.pie(df_regioes, names="Região", values="Consumo Total", title="Consumo total por região do mundo")
-    return fig.to_html() + "<br/><a href='/'>Voltar ao Inicio<a/>"
+    return fig.to_html() + "<br><a href='/'>Voltar ao Inicio</a>"
 
+@app.route("/grafico4")
+def grafico4():
+    conn = sqlite3.connect("C:/Users/noturno/Desktop/Miron Python 2/Python 22/python02-main/python02-main/sistema/consumo_alcool.db")
+    df = pd.read_sql_query("SELECT beer_servings, spirit_servings , wine_servings FROM drinks", conn)
+    conn.close()
+    medias = df.mean().reset_index()
+    medias.columns = ["Tipo", "Média"]
+    fig = px.pie(medias, names="Tipo",values="Média", title="mosstrando grafico")
+    return fig.to_html() + "<br><a href='/'> </a>"
+    
 
 # Inicia o servidor flask
 if __name__ == '__main__':
